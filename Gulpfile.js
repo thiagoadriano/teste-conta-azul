@@ -1,29 +1,36 @@
-let gulp = require('gulp');
-let htmlmin = require('gulp-html-minifier2');
-let less = require('gulp-less');
-let path = require('path');
-let concat = require('gulp-concat');
-let uglify = require('gulp-uglify');
-let pump = require('pump');
-let ts = require('gulp-typescript');
-let browserSync = require('browser-sync');
+const gulp = require('gulp');
+const pump = require('pump');
+const path = require('path');
+const less = require('gulp-less');
+const concat = require('gulp-concat');
+const uglify = require('gulp-uglify');
+const ts = require('gulp-typescript');
+const jshint = require('gulp-jshint');
+const minifyCss = require('gulp-minify-css');
+const htmlLint = require('gulp-html-linter');
+const sourcemaps = require('gulp-sourcemaps');
+const htmlmin = require('gulp-html-minifier2');
+const browserSync = require('browser-sync').create();
 
 const vendorsJS = [
-    "./node_modules/angular/angular.min.js",
-    "./node_modules/jquery/dist/jquery.min.js",
-    "./node_modules/ng-table/bundles/ng-table.min.js",
-    "./node_modules/bootstrap/dist/js/bootstrap.min.js",
-    "./node_modules/moment/min/moment-with-locales.min.js"
+    "./node_modules/angular/angular.js",
+    "./node_modules/jquery/dist/jquery.js",
+    "./node_modules/ng-table/bundles/ng-table.js",
+    "./node_modules/bootstrap/dist/js/bootstrap.js",
+    "./node_modules/moment/min/moment-with-locales.js"
 ];
 
 const vendorsCSS = [
-    "./node_modules/bootstrap/dist/css/bootstrap.min.css",
-    "./node_modules/bootstrap/dist/css/bootstrap-theme.min.css",
-    "./node_modules/ng-table/bundles/ng-table.min.css"
+    "./node_modules/bootstrap/dist/css/bootstrap.css",
+    "./node_modules/bootstrap/dist/css/bootstrap-theme.css",
+    "./node_modules/ng-table/bundles/ng-table.css"
 ];
 
 gulp.task('minifyHtml', () => {
     gulp.src('./src/html/*.html')
+        .pipe(htmlLint())
+        .pipe(htmlLint.format())
+        .pipe(htmlLint.failOnError())
         .pipe(htmlmin({ collapseWhitespace: true }))
         .pipe(gulp.dest('./public'));
 });
@@ -31,8 +38,14 @@ gulp.task('minifyHtml', () => {
 
 gulp.task('lessCompile', () => {
     return gulp.src('./src/less/**/*.less')
+        .pipe(sourcemaps.init())            
         .pipe(less({
             paths: [path.join(__dirname, 'less', 'includes')]
+        }))
+        .pipe(csslint())
+        .pipe(csslint.formatter())
+        .pipe(sourcemaps.write('maps', {
+            mapSources: (sourcePath) => `maps/${sourcePath}`
         }))
         .pipe(gulp.dest('./public/assets/css'));
 });
@@ -40,21 +53,46 @@ gulp.task('lessCompile', () => {
 
 gulp.task('scriptsBuild', () => {
     return gulp.src('./src/ts/*.ts')
+        .pipe(sourcemaps.init())    
         .pipe(ts({
             noImplicitAny: true,
             outFile: 'app.js'
         }))
+        .pipe(jshint())
+        .pipe(jshint.reporter('YOUR_REPORTER_HERE'))
         .pipe(uglify())
+        .pipe(sourcemaps.write('maps', {
+            mapSources: (sourcePath) => `maps/${sourcePath}`
+        }))
         .pipe(gulp.dest('./public/assets/js'));
 });
 
 
-gulp.task('compressVendor', (cb) => {
+gulp.task('compressVendorJS', (cb) => {
     pump([
         gulp.src(vendorsJS),
+        sourcemaps.init(),
         concat("vendors.min.js"),
         uglify(),
+        sourcemaps.write('maps', {
+            mapSources: (sourcePath) => `maps/${sourcePath}`
+        }),
         gulp.dest('./public/assets/js')
+    ],
+        cb
+    );
+});
+
+gulp.task('compressVendorCSS', (cb) => {
+    pump([
+        gulp.src(vendorsCSS),
+        sourcemaps.init(),
+        concat("vendors.min.css"),
+        minifyCss(),
+        sourcemaps.write('maps', {
+            mapSources: (sourcePath) => `maps/${sourcePath}`
+        }),
+        gulp.dest('./public/assets/css')
     ],
         cb
     );
