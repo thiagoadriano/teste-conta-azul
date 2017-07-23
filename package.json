@@ -1,0 +1,37 @@
+{
+  "name": "teste-conta-azul",
+  "version": "1.0.0",
+  "description": "projeto para contemplar teste para arquiteto na conta azul",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thiagoadriano/teste-conta-azul.git"
+  },
+  "author": "Thiago Adriano<thiago.s.adriano@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/thiagoadriano/teste-conta-azul/issues"
+  },
+  "homepage": "https://github.com/thiagoadriano/teste-conta-azul#readme",
+  "devDependencies": {
+    "@types/angular": "^1.6.27",
+    "angular": "^1.6.5",
+    "bootstrap": "^3.3.7",
+    "browser-sync": "^2.18.13",
+    "browserfy": "^1.0.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-html-minifier2": "^1.1.8",
+    "gulp-less": "^3.3.2",
+    "gulp-typescript": "^3.2.1",
+    "gulp-uglify": "^3.0.0",
+    "jquery": "^3.2.1",
+    "less": "^2.7.2",
+    "moment": "^2.18.1",
+    "ng-table": "^3.0.1",
+    "pump": "^1.0.2",
+    "typescript": "^2.4.2"
+  }
+}
