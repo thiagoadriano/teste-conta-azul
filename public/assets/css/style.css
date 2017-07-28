@@ -1,0 +1,38 @@
+body {
+  background: #F1F4F9;
+}
+header {
+  background: #2687E9;
+  padding: 15px 0;
+}
+header #logo {
+  background: url(../svg/logo-conta-azul.svg);
+  height: 28px;
+  margin: 0;
+  width: 173px;
+}
+main {
+  margin: 25px 0;
+}
+.btn-success {
+  background: #419641;
+}
+.btn-success:hover {
+  background: #327232;
+}
+.checkbox {
+  display: inline-block;
+  width: auto;
+  height: auto;
+}
+.checkbox input {
+  display: none;
+}
+.checkbox label {
+  width: 20px;
+  height: 20px;
+  border: #F7FAFC solid 1px;
+  border-radius: 3px;
+}
+
+/*# sourceMappingURL=maps/style.css.map */

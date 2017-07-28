@@ -24,15 +24,15 @@
 [class^="flaticon-"]:before, [class*=" flaticon-"]:before,
 [class^="flaticon-"]:after, [class*=" flaticon-"]:after {   
   font-family: Flaticon;
-  font-size: 20px;
+  font-size: 1em;
   font-style: normal;
-  margin-left: 20px;
+  margin-right: 5px;
 }
 
-.flaticon-interface-1:before { content: "\f100"; }
-.flaticon-fast-forward-double-right-arrows-symbol:before { content: "\f101"; }
-.flaticon-done-tick:before { content: "\f102"; }
-.flaticon-magnifier:before { content: "\f103"; }
+.flaticon-search-eye:before { content: "\f100"; }
+.flaticon-arrows:before { content: "\f101"; }
+.flaticon-tick:before { content: "\f102"; }
+.flaticon-search:before { content: "\f103"; }
 .flaticon-cross:before { content: "\f104"; }
 .flaticon-pencil-striped-symbol-for-interface-edit-buttons:before { content: "\f105"; }
 .flaticon-interface:before { content: "\f106"; }

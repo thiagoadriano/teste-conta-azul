@@ -1,15 +1,16 @@
 const gulp = require('gulp');
-const pump = require('pump');
 const path = require('path');
 const less = require('gulp-less');
 const concat = require('gulp-concat');
 const uglify = require('gulp-uglify');
 const ts = require('gulp-typescript');
 const jshint = require('gulp-jshint');
+const csslint = require('gulp-csslint');
 const minifyCss = require('gulp-minify-css');
 const htmlLint = require('gulp-html-linter');
 const sourcemaps = require('gulp-sourcemaps');
 const htmlmin = require('gulp-html-minifier2');
+const config = require('./config.gulp.plugins');
 const browserSync = require('browser-sync').create();
 
 const vendorsJS = [
@@ -27,10 +28,9 @@ const vendorsCSS = [
 ];
 
 gulp.task('minifyHtml', () => {
-    gulp.src('./src/html/*.html')
-        .pipe(htmlLint())
+    return gulp.src('./src/html/**/*.html')
+        .pipe(htmlLint(config.HTMLINTER))
         .pipe(htmlLint.format())
-        .pipe(htmlLint.failOnError())
         .pipe(htmlmin({ collapseWhitespace: true }))
         .pipe(gulp.dest('./public'));
 });
@@ -38,72 +38,66 @@ gulp.task('minifyHtml', () => {
 
 gulp.task('lessCompile', () => {
     return gulp.src('./src/less/**/*.less')
-        .pipe(sourcemaps.init())            
+        .pipe(sourcemaps.init())
         .pipe(less({
-            paths: [path.join(__dirname, 'less', 'includes')]
+            paths: [path.join(__dirname, 'less', 'includes')],
+            filename: 'style.less'
         }))
         .pipe(csslint())
         .pipe(csslint.formatter())
         .pipe(sourcemaps.write('maps', {
-            mapSources: (sourcePath) => `maps/${sourcePath}`
+            mapSources: (sourcePath) => `../../maps/${sourcePath}`
         }))
         .pipe(gulp.dest('./public/assets/css'));
 });
 
 
 gulp.task('scriptsBuild', () => {
-    return gulp.src('./src/ts/*.ts')
-        .pipe(sourcemaps.init())    
+    return gulp.src('./src/ts/**/*.ts')
+        .pipe(sourcemaps.init())
         .pipe(ts({
             noImplicitAny: true,
-            outFile: 'app.js'
+            outFile: 'app.min.js'
         }))
         .pipe(jshint())
-        .pipe(jshint.reporter('YOUR_REPORTER_HERE'))
+        .pipe(jshint.reporter())
         .pipe(uglify())
         .pipe(sourcemaps.write('maps', {
-            mapSources: (sourcePath) => `maps/${sourcePath}`
+            mapSources: (sourcePath) => `../../maps/${sourcePath}`
         }))
         .pipe(gulp.dest('./public/assets/js'));
 });
 
 
 gulp.task('compressVendorJS', (cb) => {
-    pump([
-        gulp.src(vendorsJS),
-        sourcemaps.init(),
-        concat("vendors.min.js"),
-        uglify(),
-        sourcemaps.write('maps', {
-            mapSources: (sourcePath) => `maps/${sourcePath}`
-        }),
-        gulp.dest('./public/assets/js')
-    ],
-        cb
-    );
+    return gulp.src(vendorsJS)
+        .pipe(sourcemaps.init())
+        .pipe(concat("vendors.min.js"))
+        .pipe(uglify())
+        .pipe(sourcemaps.write('maps', {
+            mapSources: (sourcePath) => `../../maps/${sourcePath}`
+        }))
+        .pipe(gulp.dest('./public/assets/js'));
 });
 
 gulp.task('compressVendorCSS', (cb) => {
-    pump([
-        gulp.src(vendorsCSS),
-        sourcemaps.init(),
-        concat("vendors.min.css"),
-        minifyCss(),
-        sourcemaps.write('maps', {
-            mapSources: (sourcePath) => `maps/${sourcePath}`
-        }),
-        gulp.dest('./public/assets/css')
-    ],
-        cb
-    );
+    return gulp.src(vendorsCSS)
+        .pipe(sourcemaps.init())
+        .pipe(concat("vendors.min.css"))
+        .pipe(minifyCss())
+        .pipe(sourcemaps.write('maps', {
+            mapSources: (sourcePath) => `../../maps/${sourcePath}`
+        }))
+        .pipe(gulp.dest('./public/assets/css'));
 });
 
 gulp.task('browser-sync', () => {
-    browserSync.reload();
+    return browserSync.reload();
 });
 
 gulp.task('default', () => {
     browserSync.init({
+        proxy: "http://localhost:4889/",
         ghostMode: {
             clicks: true,
             forms: true,
@@ -111,7 +105,7 @@ gulp.task('default', () => {
         }
     });
 
-    gulp.watch("./src/ts/*.ts", ["scriptsBuild"]);
+    gulp.watch("./src/ts/**/*.ts", ["scriptsBuild"]);
     gulp.watch("./src/less/**/*.less", ["lessCompile"]);
-    gulp.watch("./src/html/*.html", ["minifyHtml"]);
+    gulp.watch("./src/html/**/*.html", ["minifyHtml"]);
 });
