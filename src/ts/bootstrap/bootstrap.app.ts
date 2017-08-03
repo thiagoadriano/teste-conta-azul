@@ -1,10 +1,10 @@
-module APPCA {
+namespace APPCA {
     appRun.$inject = [];
     function appRun() {
 
     }
 
     angular
-        .module('appContaAzul', [])
+        .module('AppContaAzul', ["ngRoute"])
         .run(appRun);
 }

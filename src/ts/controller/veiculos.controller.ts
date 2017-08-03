@@ -1,4 +1,4 @@
-module APPCA {
+namespace APPCA {
     VeiculosController.$inject = ['$scope'];
     function VeiculosController() {
         let vm = this;
@@ -6,6 +6,6 @@ module APPCA {
     }
 
     angular
-        .module("appContaAzul")
+        .module("AppContaAzul")
         .controller("VeiculosController", VeiculosController);
 }

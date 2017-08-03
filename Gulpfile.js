@@ -15,6 +15,7 @@ const browserSync = require('browser-sync').create();
 
 const vendorsJS = [
     "./node_modules/angular/angular.js",
+    "./node_modules/angular-route/angular-route.js",
     "./node_modules/jquery/dist/jquery.js",
     "./node_modules/ng-table/bundles/ng-table.js",
     "./node_modules/bootstrap/dist/js/bootstrap.js",
