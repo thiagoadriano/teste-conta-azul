@@ -5,6 +5,6 @@ namespace APPCA {
     }
 
     angular
-        .module('AppContaAzul', ["ngRoute"])
+        .module('AppContaAzul', ["ngRoute", "ngTable"])
         .run(appRun);
 }
