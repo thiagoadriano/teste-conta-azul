@@ -1,8 +1,7 @@
-{{vm.title}}
 <div class="container">
     <div class="row">
         <div class="col-md-2">
-            <button class="btn btn-success btn-block" type="button">
+            <button class="btn btn-success btn-block" type="button" ng:click="vm.abrirModal()">
                 <i class="glyphicon glyphicon-plus"></i> Novo Carro 
             </button>
         </div>
@@ -21,7 +20,8 @@
     <div class="row">
         <div class="col-md-12">
             <table ng-table="vm.tableView" class="table table-bordered table-striped">
-                <tr ng-repeat="veiculo in $data">
+
+                <tr ng:repeat="veiculo in $data" ng:if="$data.length">
                     <td>
                         <div class="checkbox">
                             <input type="checkbox" id="all">
@@ -34,8 +34,15 @@
                     <td title="'Foto'" sortable="'imagem'">{{veiculo.imagem}}</td>
                     <td title="'Combustível'" sortable="'combustivel'">{{veiculo.combustivel}}</td>
                     <td title="'Valor'" sortable="'valor'">{{veiculo.valor}}</td>
+                    <td title="'Ações'"><button></button></td>
+                </tr>
+
+                <tr ng:if="!$data.length">
+                    <td colspan="8" class="text-center">Não tem carros cadastrados</td>
                 </tr>
             </table>
         </div>
     </div>
 </div>
+
+<ng:include src="'/views/partial/_ModalCadastroVeiculos.html'"></ng:include>
