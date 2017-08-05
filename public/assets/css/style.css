@@ -32,8 +32,54 @@ main {
 .checkbox label {
   width: 20px;
   height: 20px;
-  border: #F7FAFC solid 1px;
+  border: #c9d3dd solid 1px;
   border-radius: 3px;
+  position: relative;
+}
+.checkbox input:checked + label::before {
+  content: "\e013";
+  font-family: 'Glyphicons Halflings';
+  font-weight: 400;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  color: #385a7b;
+  font-size: 10px;
+}
+form {
+  margin: 0;
+}
+.modal-header {
+  background: #2687E9;
+}
+.modal-header .modal-title {
+  color: #fff;
+}
+.modal-footer {
+  background: #f7f7f7;
+}
+.table {
+  margin-top: 25px;
+  background: #fff;
+  border: #c9d3dd solid 1px;
+}
+.table thead tr th {
+  background: #f8fafc;
+  vertical-align: middle;
+  border-bottom: none;
+  font-size: 13px;
+  color: #395b7b;
+}
+.table tbody tr td {
+  border-top: #c9d3dd solid 1px;
+  vertical-align: middle;
+  padding: 2px 8px;
+  font-size: 13px;
+  color: #395b7b;
+}
+.ng-table-pager {
+  text-align: center;
 }
 
 /*# sourceMappingURL=maps/style.css.map */

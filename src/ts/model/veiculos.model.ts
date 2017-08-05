@@ -9,8 +9,12 @@ namespace APPCA {
             valor: 0
         };
 
+        function getModel() {
+            return Model;
+        }
+
         return {
-            model: Model
+            model: getModel
         };
     }
 
