@@ -16,10 +16,22 @@ main {
   margin: 25px 0;
 }
 .btn-success {
-  background: #419641;
+  background: #4aba58;
+  border: none;
 }
 .btn-success:hover {
-  background: #327232;
+  background: #3a9745;
+}
+.btn-default {
+  background: #f1f4f9;
+  border: #c9d3dd solid 1px;
+}
+.btn-default:hover {
+  background: #cdd8ea;
+}
+.search .btn {
+  padding: 9px 16px 9px;
+  box-shadow: none;
 }
 .checkbox {
   display: inline-block;
@@ -70,6 +82,7 @@ form {
   border-bottom: none;
   font-size: 13px;
   color: #395b7b;
+  padding: 0px 8px;
 }
 .table tbody tr td {
   border-top: #c9d3dd solid 1px;
@@ -80,6 +93,25 @@ form {
 }
 .ng-table-pager {
   text-align: center;
+}
+.table > tbody > tr.active > td {
+  background-color: #d8e9fb;
+  border-top: #8bc8f6 solid 1px;
+  border-bottom: #8bc8f6 solid 1px;
+}
+.table > tbody > tr.active > td:first-child {
+  border-left: #8bc8f6 solid 1px;
+}
+.table > tbody > tr.active > td:last-child {
+  border-right: #8bc8f6 solid 1px;
+}
+.pagination > .active > a {
+  background-color: #d8e9fb;
+  border: #8bc8f6 solid 1px;
+  color: #395b7b;
+}
+.pagination > li > a {
+  color: #395b7b;
 }
 
 /*# sourceMappingURL=maps/style.css.map */

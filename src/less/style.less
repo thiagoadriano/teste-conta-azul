@@ -20,9 +20,25 @@ main{
 }
 
 .btn-success{
-    background: #419641;
+    background: #4aba58;
+    border:none;
     &:hover{
-        background: darken(#419641, 10);
+        background: darken(#4aba58, 10);
+    }
+}
+
+.btn-default{
+    background: #f1f4f9;
+    border:#c9d3dd solid 1px;
+    &:hover{
+        background: darken(#f1f4f9, 10);
+    }
+}
+
+.search{
+    .btn{
+        padding: 9px 16px 9px;
+        box-shadow: none;
     }
 }
 
@@ -83,17 +99,41 @@ form{
         border-bottom: none;
         font-size: 13px;
         color: #395b7b;
+        padding: 0px 8px;
     }
 
     tbody tr td{
         border-top:#c9d3dd solid 1px;
         vertical-align: middle;
         padding: 2px 8px;
-        font-size: 13px;
+        font-size: 13px; 
         color: #395b7b;  
     }
 }
 
 .ng-table-pager{
     text-align: center;
+}
+
+.table>tbody>tr.active>td{
+    background-color: #d8e9fb;
+    border-top: #8bc8f6 solid 1px;
+    border-bottom: #8bc8f6 solid 1px;
+
+    &:first-child{
+        border-left: #8bc8f6 solid 1px;
+    }
+
+    &:last-child{
+        border-right: #8bc8f6 solid 1px;
+    }
+}
+
+.pagination>.active>a{
+    background-color: #d8e9fb;
+    border: #8bc8f6 solid 1px;
+    color: #395b7b;    
+}
+.pagination>li>a{
+    color: #395b7b;
 }

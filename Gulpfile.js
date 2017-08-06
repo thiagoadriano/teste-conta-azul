@@ -19,12 +19,16 @@ const vendorsJS = [
     "./node_modules/jquery/dist/jquery.js",
     "./node_modules/ng-table/bundles/ng-table.js",
     "./node_modules/bootstrap/dist/js/bootstrap.js",
+    "./node_modules/bootstrap3-dialog/dist/js/bootstrap-dialog.js",
+    "./node_modules/ekko-lightbox/dist/ekko-lightbox.js",
     "./node_modules/moment/min/moment-with-locales.js"
 ];
 
 const vendorsCSS = [
     "./node_modules/bootstrap/dist/css/bootstrap.css",
     "./node_modules/bootstrap/dist/css/bootstrap-theme.css",
+    "./node_modules/bootstrap3-dialog/dist/css/bootstrap-dialog.css",
+    "./node_modules/ekko-lightbox/dist/ekko-lightbox.css",
     "./node_modules/ng-table/bundles/ng-table.css"
 ];
 

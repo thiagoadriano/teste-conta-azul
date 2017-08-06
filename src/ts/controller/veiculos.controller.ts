@@ -6,15 +6,39 @@ namespace APPCA {
         vm.listaMarcas = [];
         vm.listaModelos = [];
         vm.titleModal = "Incluir";
+        vm.allChecks = false;
         vm.Model = VeiculosModel.model();
         vm.tableView = tableParams();
         vm.selecionaModelos = selecionaModelos;
         vm.abrirModal = abrirModal;
         vm.editar = editar;
         vm.salvar = salvar;
+        vm.excluir = excluir;
         vm.validaPlaca = validaPlaca;
+        vm.marqueAllChecks = marqueAllChecks;
+        vm.ativaLinha = ativaLinha;
 
         init();
+
+        function excluir(veiculo) {
+            Util.excluir(veiculo.placa, () => {
+
+            });
+        }
+        function marqueAllChecks() {
+            vm.lista.forEach(item => {
+                if (vm.allChecks) {
+                    item.linhaAtiva = true;
+                } else {
+                    item.linhaAtiva = false;
+                }
+            });
+        }
+
+        function ativaLinha(linha) {
+            linha.linhaAtiva = !linha.linhaAtiva;
+            vm.allChecks = false;
+        }
 
         function tableParams() {
             let config = {
@@ -92,6 +116,11 @@ namespace APPCA {
 
             MS.getMarcas().then((result) => {
                 vm.listaMarcas = result;
+            });
+
+            $(document).on('click', '[data-toggle="lightbox"]', function (event) {
+                event.preventDefault();
+                $(this).ekkoLightbox();
             });
         }
 

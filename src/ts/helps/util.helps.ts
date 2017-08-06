@@ -3,7 +3,8 @@ namespace APPCA {
 
         return {
             searchItemId: searchItemId,
-            getNomeImagemLink: getNomeImagemLink
+            getNomeImagemLink: getNomeImagemLink,
+            excluir: excluir
         };
 
         function searchItemId(lista: Array<any>, idItem: number) {
@@ -33,6 +34,38 @@ namespace APPCA {
             nome = nome.replace(/(_|\.)/g, ' ');
 
             return nome.substring(0, 25);
+        }
+
+        function excluir(registro, callbackSim, callbackNao, title, msg) {
+            if (!callbackSim) return;
+
+            BootstrapDialog.show({
+                type: BootstrapDialog.TYPE_DANGER,
+                size: BootstrapDialog.SIZE_SMALL,
+                title: title || "Excluir Registro",
+                message: msg || `Deseja realmente excluir o registro: <br><strong>${registro}</strong>?`,
+                buttons: [
+                    {
+                        label: 'Não',
+                        cssClass: 'btn-default',
+                        action: function (dialog) {
+                            dialog.close();
+                            if (callbackNao) {
+                                callbackNao();
+                            }
+                        }
+                    },
+                    {
+                        label: 'Sim',
+                        cssClass: 'btn-danger',
+                        action: function (dialog) {
+                            dialog.close();
+                            callbackSim();
+                        }
+                    }
+                ]
+            });
+
         }
     }
 
