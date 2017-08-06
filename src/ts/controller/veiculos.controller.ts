@@ -22,7 +22,9 @@ namespace APPCA {
 
         function excluir(veiculo) {
             Util.excluir(veiculo.placa, () => {
-
+                VS.del(veiculo);
+                tableParams();
+                getVeiculos();
             });
         }
         function marqueAllChecks() {
@@ -43,13 +45,13 @@ namespace APPCA {
         function tableParams() {
             let config = {
                 initialParams: {
-                    count: 2
+                    count: 5
                 },
                 initialSettings: {
                     counts: [],
                     paginationMaxBlocks: 13,
                     paginationMinBlocks: 2,
-                    dataset: vm.lista
+                    dataset: []
                 }
             }
             return new NgTableParams(config.initialParams, config.initialSettings);
@@ -78,6 +80,13 @@ namespace APPCA {
         }
 
         function salvar(isValid) {
+            if (!isValid) return;
+
+            if (vm.Model.hasOwnProperty("id")) {
+                VS.atualizar(vm.Model);
+            } else {
+                VS.save(vm.Model);
+            }
         }
 
         function validaPlaca() {
