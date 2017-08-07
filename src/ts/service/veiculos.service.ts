@@ -43,10 +43,9 @@ namespace APPCA {
 
         function _atualiza(obj) {
             if (!testaPlaca(obj.placa)) return;
-            if (existePlaca(obj.placa)) return;
 
             let posiIntem = lista.indexOf(obj);
-            obj.valor = obj.valor.replace(/\./g,'');            
+            obj.valor = obj.valor.replace(/\./g, '');
             lista[posiIntem] = obj;
             MsgInfos.success("Veículo atualizado com sucesso!");
         }
@@ -54,7 +53,7 @@ namespace APPCA {
         function _save(obj) {
             if (!testaPlaca(obj.placa)) return;
             if (existePlaca(obj.placa)) return;
-            if(obj.valor !== 0) obj.valor = obj.valor.replace(/\./g,'');
+            if (obj.valor !== 0) obj.valor = obj.valor.replace(/\./g, '');
             lista.push(obj);
             MsgInfos.success("Veículo cadastrado com sucesso!");
         }
@@ -78,9 +77,9 @@ namespace APPCA {
             return false;
         }
 
-        function testaPlaca(placa){
+        function testaPlaca(placa) {
             let pattern = /[a-zA-Z]{3}-[0-9]{4}/;
-            if(!pattern.test(placa)){
+            if (!pattern.test(placa)) {
                 MsgInfos.danger("A placa não está no formato correto");
                 return false;
             }
