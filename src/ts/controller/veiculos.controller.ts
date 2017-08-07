@@ -28,21 +28,21 @@ namespace APPCA {
 
         init();
 
-        function numeros(){
-            if(vm.Model.valor){
+        function numeros() {
+            if (vm.Model.valor) {
                 return vm.Model.valor = vm.Model.valor.replace(/\D/g, '');
             }
         }
 
-        function filtrar(){
-            if(!vm.search && oldList.length){
+        function filtrar() {
+            if (!vm.search && oldList.length) {
                 vm.lista = angular.copy(oldList);
                 vm.tableParams = tableParams();
-                oldList = [];                 
-            }else if(vm.search){
-                if(!oldList.length) oldList = angular.copy(vm.lista);
-                $filter('filter')(vm.lista, vm.search);
-                vm.tableParams = tableParams(); 
+                oldList = [];
+            } else if (vm.search) {
+                if (!oldList.length) oldList = angular.copy(vm.lista);
+                vm.lista = $filter('filter')(vm.lista, vm.search);
+                vm.tableParams = tableParams();
             }
         }
 
@@ -61,7 +61,7 @@ namespace APPCA {
                     item.linhaAtiva = false;
                 }
             });
-        } 
+        }
 
         function ativaLinha(linha) {
             linha.linhaAtiva = !linha.linhaAtiva;
@@ -71,8 +71,7 @@ namespace APPCA {
         function tableParams() {
             let config = {
                 initialParams: {
-                    count: 5,
-                    filter: vm.search
+                    count: 5
                 },
                 initialSettings: {
                     counts: [],
@@ -124,14 +123,14 @@ namespace APPCA {
             VS.existePlaca(vm.Model.placa);
         }
 
-        function upper(){
+        function upper() {
             let data = vm.Model.placa;
-            if(!data) return;
+            if (!data) return;
             return vm.Model.placa = data.toUpperCase();
         }
 
-        function corrigeValor(){
-            if(/\D/g.test(vm.Model.valor)) return;
+        function corrigeValor() {
+            if (/\D/g.test(vm.Model.valor)) return;
             let valor = vm.Model.valor.replace(/\./g, '');
             return vm.Model.valor = (+valor).toLocaleString();
         }
