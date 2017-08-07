@@ -10,7 +10,7 @@ namespace APPCA {
         };
 
         function getModel() {
-            return Model;
+            return angular.copy(Model);
         }
 
         return {

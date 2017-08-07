@@ -1,14 +1,18 @@
 namespace APPCA {
-    VeiculosController.$inject = ['VeiculosService', 'NgTableParams', 'MarcasService', 'VeiculosModel', 'UtilHelpers'];
-    function VeiculosController(VS, NgTableParams, MS, VeiculosModel, Util) {
+    VeiculosController.$inject = ['VeiculosService', 'NgTableParams', 'MarcasService', 'VeiculosModel', 'UtilHelpers', '$filter'];
+    function VeiculosController(VS, NgTableParams, MS, VeiculosModel, Util, $filter) {
         let vm = this;
+        let oldList = [];
         vm.lista = <Array<IVeiculos>>[];
         vm.listaMarcas = [];
         vm.listaModelos = [];
         vm.titleModal = "Incluir";
         vm.allChecks = false;
+        vm.search = '';
         vm.Model = VeiculosModel.model();
-        vm.tableView = tableParams();
+
+
+        vm.tableParams = tableParams();
         vm.selecionaModelos = selecionaModelos;
         vm.abrirModal = abrirModal;
         vm.editar = editar;
@@ -17,16 +21,38 @@ namespace APPCA {
         vm.validaPlaca = validaPlaca;
         vm.marqueAllChecks = marqueAllChecks;
         vm.ativaLinha = ativaLinha;
+        vm.upper = upper;
+        vm.corrigeValor = corrigeValor;
+        vm.filtrar = filtrar;
+        vm.numeros = numeros;
 
         init();
 
+        function numeros(){
+            if(vm.Model.valor){
+                return vm.Model.valor = vm.Model.valor.replace(/\D/g, '');
+            }
+        }
+
+        function filtrar(){
+            if(!vm.search && oldList.length){
+                vm.lista = angular.copy(oldList);
+                vm.tableParams = tableParams();
+                oldList = [];                 
+            }else if(vm.search){
+                if(!oldList.length) oldList = angular.copy(vm.lista);
+                $filter('filter')(vm.lista, vm.search);
+                vm.tableParams = tableParams(); 
+            }
+        }
+
         function excluir(veiculo) {
             Util.excluir(veiculo.placa, () => {
-                VS.del(veiculo);
-                tableParams();
+                VS.Deletar(veiculo);
                 getVeiculos();
             });
         }
+
         function marqueAllChecks() {
             vm.lista.forEach(item => {
                 if (vm.allChecks) {
@@ -35,7 +61,7 @@ namespace APPCA {
                     item.linhaAtiva = false;
                 }
             });
-        }
+        } 
 
         function ativaLinha(linha) {
             linha.linhaAtiva = !linha.linhaAtiva;
@@ -45,13 +71,14 @@ namespace APPCA {
         function tableParams() {
             let config = {
                 initialParams: {
-                    count: 5
+                    count: 5,
+                    filter: vm.search
                 },
                 initialSettings: {
                     counts: [],
                     paginationMaxBlocks: 13,
                     paginationMinBlocks: 2,
-                    dataset: []
+                    dataset: vm.lista
                 }
             }
             return new NgTableParams(config.initialParams, config.initialSettings);
@@ -72,7 +99,7 @@ namespace APPCA {
         }
 
         function editar(id: number) {
-            let veiculo = Util.searchItemId(vm.lista, id);
+            let veiculo = VS.BuscarUm(id);
             vm.Model = veiculo;
             vm.titleModal = "Editar";
             selecionaModelos();
@@ -83,39 +110,36 @@ namespace APPCA {
             if (!isValid) return;
 
             if (vm.Model.hasOwnProperty("id")) {
-                VS.atualizar(vm.Model);
+                VS.Atualizar(vm.Model);
             } else {
-                VS.save(vm.Model);
+                VS.Salvar(vm.Model);
             }
+
+            getVeiculos();
+            $("#veiculosModal").modal("hide");
         }
 
         function validaPlaca() {
-            var data = vm.Model.placa.toLowerCase(),
-                patterns = {
-                    texto: /[a-z]{1,3}/,
-                    numero: /[0-9]{1,4}/,
-                    placa: /[a-z]{3}-[0-9]{4}/
-                };
-            if (patterns.placa.test(data)) {
-                return vm.Model.placa = data.toUpperCase();
-            } else if (patterns.texto.test(data)) {
-                return vm.Model.placa = data.toUpperCase();
-            } else {
-                vm.Model.placa = "";
-            }
+            VS.testaPlaca(vm.Model.placa);
+            VS.existePlaca(vm.Model.placa);
+        }
+
+        function upper(){
+            let data = vm.Model.placa;
+            if(!data) return;
+            return vm.Model.placa = data.toUpperCase();
+        }
+
+        function corrigeValor(){
+            if(/\D/g.test(vm.Model.valor)) return;
+            let valor = vm.Model.valor.replace(/\./g, '');
+            return vm.Model.valor = (+valor).toLocaleString();
         }
 
         function getVeiculos() {
-            VS.getAll().then((veiculos) => {
+            VS.BuscarTodos().then((veiculos) => {
                 vm.lista = veiculos;
-                vm.lista.forEach(item => {
-                    item.valorCorrigido = "R$ " + (+item.valor).toLocaleString() + ",00";
-                    item.nomeImagem = Util.getNomeImagemLink(item.imagem);
-                    item.linhaAtiva = false;
-                });
-                vm.tableView.settings({
-                    dataset: vm.lista
-                });
+                vm.tableParams = tableParams();
             });
         }
 

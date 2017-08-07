@@ -33,7 +33,7 @@ namespace APPCA {
             nome = nome.replace(/\.[a-z]{3,4}$/, '');
             nome = nome.replace(/(_|\.)/g, ' ');
 
-            return nome.substring(0, 25);
+            return nome.substring(0, 18);
         }
 
         function excluir(registro, callbackSim, callbackNao, title, msg) {

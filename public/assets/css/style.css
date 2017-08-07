@@ -128,5 +128,9 @@ form {
   display: block;
   margin-bottom: 8px;
 }
+.infoError {
+  color: darkred;
+  margin-top: 6px;
+}
 
 /*# sourceMappingURL=maps/style.css.map */

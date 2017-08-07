@@ -1,7 +1,7 @@
 <div class="modal fade" id="veiculosModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-            <form action="" id="veiculos" name="veiculos" ng:submit="vm.salvar(veiculos.$valid)" novalidate>
+            <form id="veiculos" name="veiculos" ng:submit="vm.salvar(veiculos.$valid)" novalidate>
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title">{{vm.titleModal}} Veículo</h4>
@@ -10,8 +10,9 @@
                     <div class="row">
                         <div class="form-group col-md-6">
                             <label for="Placa">Placa</label>
-                            <input type="text" class="form-control" id="Placa" ng:keyup="vm.validaPlaca()" name="Placa" maxlength="8" ng:model="vm.Model.placa"
-                                required>
+                            <input type="text" class="form-control" id="Placa" ng:keyup="vm.upper()" ng:blur="vm.validaPlaca()" name="Placa" maxlength="8" ng:model="vm.Model.placa"
+                                 required>
+                            <span ng:show="veiculos.$error.pattern" class="infoError">Informe a placa no padrão: ABC-1234</span>
                         </div>
                         <div class="form-group col-md-6">
                             <label for="Marca">Marca</label>
@@ -39,7 +40,7 @@
                     <div class="row">
                         <div class="form-group col-md-6">
                             <label for="Combustivel">Combustível</label>
-                            <select class="form-control" id="Combustivel" name="Combustivel" ng:model="vm.Model.combustivel" required>
+                            <select class="form-control" id="Combustivel" name="Combustivel" ng:model="vm.Model.combustivel">
                             <option value="">Selecione</option>
                             <option value="Álcool">Álcool</option>
                             <option value="Gasolina">Gasolina</option>
@@ -49,7 +50,7 @@
                         </div>
                         <div class="form-group col-md-6">
                             <label for="Valor">Valor</label>
-                            <input type="text" class="form-control" id="Valor" name="Valor" maxlength="16" ng:model="vm.Model.valor" required>
+                            <input type="text" class="form-control" id="Valor" ng:keyup="vm.numeros();vm.corrigeValor();" name="Valor" maxlength="16" ng:model="vm.Model.valor">
                         </div>
                     </div>
 
